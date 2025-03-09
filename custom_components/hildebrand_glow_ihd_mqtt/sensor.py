@@ -45,121 +45,142 @@ _LOGGER = logging.getLogger(__name__)
 # glow/XXXXXXYYYYYY/SENSOR/gasmeter         {"gasmeter":{"timestamp":"2022-06-11T20:53:52Z","energy":{"export":{"cumulative":0.000,"units":"kWh"},"import":{"cumulative":17940.852,"day":11.128,"week":104.749,"month":217.122,"units":"kWh","mprn":"1234","supplier":"---","price":{"unitrate":0.07320,"standingcharge":0.17850}}},"power":{"value":0.000,"units":"kW"}}}
 
 STATE_SENSORS = [
-  {
-    "name": "Smart Meter IHD Software Version",
-    "device_class": None,
-    "unit_of_measurement": None,
-    "state_class": None,                # SensorStateClass.MEASUREMENT,
-    "entity_category": EntityCategory.DIAGNOSTIC,
-    "icon": "mdi:information-outline",
-    "func": lambda js: js["software"],
-  },
-  {
-    "name": "Smart Meter IHD Hardware",
-    "device_class": None,
-    "unit_of_measurement": None,
-    "state_class": None,                # SensorStateClass.MEASUREMENT,
-    "entity_category": EntityCategory.DIAGNOSTIC,
-    "icon": "mdi:information-outline",
-    "func": lambda js: js["hardware"],
-  },
-  {
-    "name": "Smart Meter IHD HAN RSSI",
-    "device_class": SensorDeviceClass.SIGNAL_STRENGTH,
-    "unit_of_measurement": SIGNAL_STRENGTH_DECIBELS,
-    "state_class": SensorStateClass.MEASUREMENT,
-    "entity_category": EntityCategory.DIAGNOSTIC,
-    "icon": "mdi:wifi-strength-outline",
-    "func": lambda js: js["han"]["rssi"]
-  },
-  {
-    "name": "Smart Meter IHD HAN LQI",
-    "device_class": None,
-    "unit_of_measurement": None,
-    "state_class": SensorStateClass.MEASUREMENT,
-    "entity_category": EntityCategory.DIAGNOSTIC,
-    "icon": "mdi:wifi-strength-outline",
-    "func": lambda js: js["han"]["lqi"]
-  }
+   {
+        "name": "Smart Meter IHD Software Version",
+        "device_class": None,
+        "unit_of_measurement": None,
+        "state_class": None,
+        "entity_category": EntityCategory.DIAGNOSTIC,
+        "icon": "mdi:information-outline",
+        "func": lambda js: js["software"],
+    },
+    {
+        "name": "Smart Meter IHD Hardware",
+        "device_class": None,
+        "unit_of_measurement": None,
+        "state_class": None,
+        "entity_category": EntityCategory.DIAGNOSTIC,
+        "icon": "mdi:information-outline",
+        "func": lambda js: js["hardware"],
+    },
+    {
+        "name": "Smart Meter IHD HAN Status",
+        "device_class": None,
+        "unit_of_measurement": None,
+        "state_class": None,
+        "entity_category": EntityCategory.DIAGNOSTIC,
+        "icon": "mdi:information-outline",
+        "func": lambda js: js["han"]["status"],
+    },
+    {
+        "name": "Smart Meter IHD HAN RSSI",
+        "device_class": SensorDeviceClass.SIGNAL_STRENGTH,
+        "unit_of_measurement": SIGNAL_STRENGTH_DECIBELS,
+        "state_class": SensorStateClass.MEASUREMENT,
+        "entity_category": EntityCategory.DIAGNOSTIC,
+        "icon": "mdi:wifi-strength-outline",
+        "func": lambda js: js["han"]["rssi"],
+    },
+    {
+        "name": "Smart Meter IHD HAN LQI",
+        "device_class": None,
+        "unit_of_measurement": None,
+        "state_class": SensorStateClass.MEASUREMENT,
+        "entity_category": EntityCategory.DIAGNOSTIC,
+        "icon": "mdi:wifi-strength-outline",
+        "func": lambda js: js["han"]["lqi"],
+    },
+
 ]
 
 ELECTRICITY_SENSORS = [
-  {
-    "name": "Smart Meter Electricity: Export",
-    "device_class": SensorDeviceClass.ENERGY,
-    "unit_of_measurement": ENERGY_KILO_WATT_HOUR,
-    "state_class": SensorStateClass.TOTAL_INCREASING,
-    "icon": "mdi:flash",
-    "func": lambda js : js['electricitymeter']['energy']['export']['cumulative'],
-  },
-  {
-    "name": "Smart Meter Electricity: Import",
-    "device_class": SensorDeviceClass.ENERGY,
-    "unit_of_measurement": ENERGY_KILO_WATT_HOUR,
-    "state_class": SensorStateClass.TOTAL_INCREASING,
-    "icon": "mdi:flash",
-    "func": lambda js : js['electricitymeter']['energy']['import']['cumulative'],
-    "ignore_zero_values": True,
-  },
-  {
-    "name": "Smart Meter Electricity: Import (Today)",
-    "device_class": SensorDeviceClass.ENERGY,
-    "unit_of_measurement": ENERGY_KILO_WATT_HOUR,
-    "state_class": SensorStateClass.TOTAL_INCREASING,
-    "icon": "mdi:flash",
-    "func": lambda js : js['electricitymeter']['energy']['import']['day'],
-  },
-  {
-    "name": "Smart Meter Electricity: Import (This week)",
-    "device_class": SensorDeviceClass.ENERGY,
-    "unit_of_measurement": ENERGY_KILO_WATT_HOUR,
-    "state_class": SensorStateClass.TOTAL_INCREASING,
-    "icon": "mdi:flash",
-    "func": lambda js : js['electricitymeter']['energy']['import']['week'],
-  },
-  {
-    "name": "Smart Meter Electricity: Import (This month)",
-    "device_class": SensorDeviceClass.ENERGY,
-    "unit_of_measurement": ENERGY_KILO_WATT_HOUR,
-    "state_class": SensorStateClass.TOTAL_INCREASING,
-    "icon": "mdi:flash",
-    "func": lambda js : js['electricitymeter']['energy']['import']['month'],
-  },
-  {
-    "name": "Smart Meter Electricity: Import Unit Rate",
-    "device_class": SensorDeviceClass.MONETARY,
-    "unit_of_measurement": "GBP/kWh",
-    "state_class": SensorStateClass.TOTAL,
-    "icon": "mdi:cash",
-    "func": lambda js : js['electricitymeter']['energy']['import']['price']['unitrate'],
-    "ignore_zero_values": True,
-  },
-  {
-    "name": "Smart Meter Electricity: Import Standing Charge",
-    "device_class": SensorDeviceClass.MONETARY,
-    "unit_of_measurement": "GBP",
-    "state_class": SensorStateClass.TOTAL,
-    "icon": "mdi:cash",
-    "func": lambda js : js['electricitymeter']['energy']['import']['price']['standingcharge'],
-    "ignore_zero_values": True,
-  },
-  {
-    "name": "Smart Meter Electricity: Power",
-    "device_class": SensorDeviceClass.POWER,
-    "unit_of_measurement": POWER_KILO_WATT,
-    "state_class": SensorStateClass.MEASUREMENT,
-    "icon": "mdi:flash",
-    "func": lambda js : js['electricitymeter']['power']['value'],
-  },
-  {
-    "name": "Smart Meter Electricity: Cost (Today)",
-    "device_class": SensorDeviceClass.MONETARY,
-    "unit_of_measurement": "GBP",
-    "state_class": SensorStateClass.TOTAL_INCREASING,
-    "icon": "mdi:cash",
-    "func": lambda js : round(js['electricitymeter']['energy']['import']['price']['standingcharge'] + \
-       (js['electricitymeter']['energy']['import']['day'] * js['electricitymeter']['energy']['import']['price']['unitrate']), 2),
-  }
+    {
+        "name": "Smart Meter Electricity: Export",
+        "device_class": SensorDeviceClass.ENERGY,
+        "unit_of_measurement": UnitOfEnergy.KILO_WATT_HOUR,
+        "state_class": SensorStateClass.TOTAL_INCREASING,
+        "icon": "mdi:flash",
+        "func": lambda js: js["electricitymeter"]["energy"]["export"]["cumulative"],
+    },
+    {
+        "name": "Smart Meter Electricity: Import",
+        "device_class": SensorDeviceClass.ENERGY,
+        "unit_of_measurement": UnitOfEnergy.KILO_WATT_HOUR,
+        "state_class": SensorStateClass.TOTAL_INCREASING,
+        "icon": "mdi:flash",
+        "func": lambda js: js["electricitymeter"]["energy"]["import"]["cumulative"],
+        "ignore_zero_values": True,
+    },
+    {
+        "name": "Smart Meter Electricity: Import (Today)",
+        "device_class": SensorDeviceClass.ENERGY,
+        "unit_of_measurement": UnitOfEnergy.KILO_WATT_HOUR,
+        "state_class": SensorStateClass.TOTAL_INCREASING,
+        "icon": "mdi:flash",
+        "func": lambda js: js["electricitymeter"]["energy"]["import"]["day"],
+    },
+    {
+        "name": "Smart Meter Electricity: Import (This week)",
+        "device_class": SensorDeviceClass.ENERGY,
+        "unit_of_measurement": UnitOfEnergy.KILO_WATT_HOUR,
+        "state_class": SensorStateClass.TOTAL_INCREASING,
+        "icon": "mdi:flash",
+        "func": lambda js: js["electricitymeter"]["energy"]["import"]["week"],
+    },
+    {
+        "name": "Smart Meter Electricity: Import (This month)",
+        "device_class": SensorDeviceClass.ENERGY,
+        "unit_of_measurement": UnitOfEnergy.KILO_WATT_HOUR,
+        "state_class": SensorStateClass.TOTAL_INCREASING,
+        "icon": "mdi:flash",
+        "func": lambda js: js["electricitymeter"]["energy"]["import"]["month"],
+    },
+    {
+        "name": "Smart Meter Electricity: Import Unit Rate",
+        "device_class": SensorDeviceClass.MONETARY,
+        "unit_of_measurement": "GBP/kWh",
+        "state_class": SensorStateClass.TOTAL,
+        "icon": "mdi:cash",
+        "func": lambda js: js["electricitymeter"]["energy"]["import"]["price"][
+            "unitrate"
+        ],
+        "ignore_zero_values": True,
+    },
+    {
+        "name": "Smart Meter Electricity: Import Standing Charge",
+        "device_class": SensorDeviceClass.MONETARY,
+        "unit_of_measurement": "GBP",
+        "state_class": SensorStateClass.TOTAL,
+        "icon": "mdi:cash",
+        "func": lambda js: js["electricitymeter"]["energy"]["import"]["price"][
+            "standingcharge"
+        ],
+        "ignore_zero_values": True,
+    },
+    {
+        "name": "Smart Meter Electricity: Power",
+        "device_class": SensorDeviceClass.POWER,
+        "unit_of_measurement": UnitOfPower.KILO_WATT,
+        "state_class": SensorStateClass.MEASUREMENT,
+        "icon": "mdi:flash",
+        "func": lambda js: js["electricitymeter"]["power"]["value"],
+    },
+    {
+        "name": "Smart Meter Electricity: Cost (Today)",
+        "device_class": SensorDeviceClass.MONETARY,
+        "unit_of_measurement": "GBP",
+        "state_class": SensorStateClass.TOTAL,
+        "icon": "mdi:cash",
+        "meter_interval": MeterInterval.DAY,
+        "func": lambda js: round(
+            js["electricitymeter"]["energy"]["import"]["price"]["standingcharge"]
+            + (
+                js["electricitymeter"]["energy"]["import"]["day"]
+                * js["electricitymeter"]["energy"]["import"]["price"]["unitrate"]
+            ),
+            2,
+        ),
+    },
 
 ]
 
