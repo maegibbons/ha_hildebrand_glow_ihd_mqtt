@@ -45,7 +45,7 @@ _LOGGER = logging.getLogger(__name__)
 # glow/XXXXXXYYYYYY/SENSOR/gasmeter         {"gasmeter":{"timestamp":"2022-06-11T20:53:52Z","energy":{"export":{"cumulative":0.000,"units":"kWh"},"import":{"cumulative":17940.852,"day":11.128,"week":104.749,"month":217.122,"units":"kWh","mprn":"1234","supplier":"---","price":{"unitrate":0.07320,"standingcharge":0.17850}}},"power":{"value":0.000,"units":"kW"}}}
 
 STATE_SENSORS = [
-   {
+    {
         "name": "Smart Meter IHD Software Version",
         "device_class": None,
         "unit_of_measurement": None,
@@ -90,7 +90,6 @@ STATE_SENSORS = [
         "icon": "mdi:wifi-strength-outline",
         "func": lambda js: js["han"]["lqi"],
     },
-
 ]
 
 ELECTRICITY_SENSORS = [
@@ -181,7 +180,6 @@ ELECTRICITY_SENSORS = [
             2,
         ),
     },
-
 ]
 
 GAS_SENSORS = [
